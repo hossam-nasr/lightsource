@@ -1,0 +1,264 @@
+/**
+ * styles.css
+ *
+ * Computer Science 50
+ * Problem Set 7
+ *
+ * Global CSS.
+ */
+
+.container
+{
+    /* center contents */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;    
+}
+
+#middle .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+#bottom
+{
+    /* shrink bottom's font size */
+    font-size: smaller;
+
+    /* surround with whitespace */
+    margin: 20px;
+    bottom: 5px;
+    right: 0px;
+    left: 0px;
+    position: fixed;
+    text-align: center;
+}
+
+body
+{
+    background-image: url("../img/background.jpg");
+    background-size: cover;
+    background-color: #000000;
+    color: #CCCCCC;
+}
+
+td 
+{
+    text-align: left;
+    background-color: rgba(0,0,0,0);
+}
+
+th
+{
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/*.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {*/
+/*   background-color: rgba(0, 0, 0, 0.7);*/
+/*}*/
+
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th
+{
+    background-color: rgba(0, 0, 0, 0.7);    
+}
+
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th 
+{
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+@font-face
+{
+    font-family: 'cashfont';
+    src: url('../fonts/cash.TTF');
+}
+
+.link
+{
+    display: inline;
+    margin: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.links div
+{
+	background-color: transparent;
+}
+
+.links a:link
+{
+    color: #CCCCCC;
+    text-decoration: none;
+    text-shadow: 0 0 0.1em #FFFFFF;
+    background-color: transparent;
+}
+.links a:visited
+{
+    color: #CCCCCC;
+    text-decoration: none;
+    background-color: transparent;
+}
+.links a:hover
+{
+    color: #FFFFFF;
+    text-decoration: none;
+    text-shadow: 0 0 0.3em #FFFFFF, 0 0 0.3em #FFFFFF;
+    background-color: transparent;
+}
+.links a:active
+{
+    color: #FFFFFF;
+    text-decoration: none;
+    text-shadow: 0 0 0.4em #FFFFFF, 0 0 0.4em #FFFFFF;
+    background-color: transparent;
+}
+
+#game
+{
+    vertical-align: middle;
+    cursor: pointer;
+    max-height: 200px;
+    display: inline;
+}
+#game-container
+{
+    height: 200px;      /* equals max image height */
+    width: 100%; 
+    margin-bottom: 100px;
+}
+#game-helper
+{
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+#save
+{
+	margin: 20px;
+	bottom: 30px;
+	left: 0px;
+	right: 0px;
+	position: fixed;
+	display: inline;
+}
+
+#save-link
+{
+	margin: 20px;
+	position: fixed;
+	left: 0;
+	right: 0;
+	margin-left: 600px;
+	margin-right: 600px;
+	bottom: 30px;
+}
+
+#sprites
+{
+	max-height: 290px;
+	overflow-y: scroll;
+}
+
+.slists
+{
+	max-height: 290px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.slists::-webkit-scrollbar-track
+{
+	border: 1px solid white;
+	background-color: #000000;
+}
+
+.slists::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #000000;
+}
+
+.slists::-webkit-scrollbar-thumb
+{
+	background-color: #F5F5F5;	
+}
+
+.upgrades-panel 
+{
+	border: 0px;
+}
+
+.upgrades-panel a
+{
+	font-size: 30px;
+	font-weight: bold;
+	padding: 20px;
+}
+
+.incrementer
+{
+	background-color: transparent;
+	color: #CCCCCC;
+    text-shadow: 0 0 0.4em #FFFFFF;
+    font-size: 15px;
+    position: relative;
+    margin-left: 0px;
+}
+
+.inline
+{
+	display: inline;
+}
+
+.bronze
+{
+	color: rgba(240, 103, 34, 1);
+}
+.silver
+{
+	color: rgba(173, 171, 170, 1);
+}
+.gold
+{
+	color: rgba(215, 215, 0, 1);
+}
+.platinum
+{
+	color: rgba(229, 228, 226, 1);
+}
+
+.wide-margin-right
+{
+	margin-right: 20px;
+}
+
+.border-bottom
+{
+	border-bottom: 1px solid white;
+}
+
+.modal
+{
+	color: black;
+}
+
+.progress {background: rgba(0, 0, 0, 1); border: 1px solid rgba(255, 255, 255, 1); border-radius: 0px; height: 7px; margin-bottom: 0px; margin-top: 5px;}
+.progress-bar-0 {background: rgba(240, 103, 34, 1); -webkit-transition: none !important; transition: none !important;} 
+.progress-striped .progress-bar-0 {background-color: rgba(240, 103, 34, 1); background-image: -webkit-gradient(linear,0 100%,100% 0,color-stop(0.25,rgba(255, 255, 255, 0.15),color-stop(0.25,transparent),color-stop(0.5,transparent),color-stop(0.5,rgba(255, 255, 255, 0.15)),color-stop(0.75,rgba(255, 255, 255, 0.15)),color-stop(0.75,transparent),to(transparent))); background-image: -webkit-linear-gradient(45deg,rgba(255, 255, 255, 0.15) 25%,transparent 25%,transparent 50%,rgba(255, 255, 255, 0.15) 50%,rgba(255, 255, 255, 0.15) 75%,transparent 75%,transparent); background-image: linear-gradient(45deg,rgba(255, 255, 255, 0.15) 25%,transparent 25%,transparent 50%,rgba(255, 255, 255, 0.15) 50%,rgba(255, 255, 255, 0.15) 75%,transparent 75%,transparent); background-size: 34px 34px;}
+
+.progress-bar-1 {background: rgba(173, 171, 170, 1); -webkit-transition: none !important; transition: none !important;} 
+.progress-striped .progress-bar-1 {background-color: rgba(173, 171, 170, 1); background-image: -webkit-gradient(linear,0 100%,100% 0,color-stop(0.25,rgba(255, 255, 255, 0.15),color-stop(0.25,transparent),color-stop(0.5,transparent),color-stop(0.5,rgba(255, 255, 255, 0.15)),color-stop(0.75,rgba(255, 255, 255, 0.15)),color-stop(0.75,transparent),to(transparent))); background-image: -webkit-linear-gradient(45deg,rgba(255, 255, 255, 0.15) 25%,transparent 25%,transparent 50%,rgba(255, 255, 255, 0.15) 50%,rgba(255, 255, 255, 0.15) 75%,transparent 75%,transparent); background-image: linear-gradient(45deg,rgba(255, 255, 255, 0.15) 25%,transparent 25%,transparent 50%,rgba(255, 255, 255, 0.15) 50%,rgba(255, 255, 255, 0.15) 75%,transparent 75%,transparent); background-size: 34px 34px;}
+
+.progress-bar-2 {background: rgba(215, 215, 0, 1); -webkit-transition: none !important; transition: none !important;} 
+.progress-striped .progress-bar-2 {background-color: rgba(215, 215, 0, 1); background-image: -webkit-gradient(linear,0 100%,100% 0,color-stop(0.25,rgba(255, 255, 255, 0.15),color-stop(0.25,transparent),color-stop(0.5,transparent),color-stop(0.5,rgba(255, 255, 255, 0.15)),color-stop(0.75,rgba(255, 255, 255, 0.15)),color-stop(0.75,transparent),to(transparent))); background-image: -webkit-linear-gradient(45deg,rgba(255, 255, 255, 0.15) 25%,transparent 25%,transparent 50%,rgba(255, 255, 255, 0.15) 50%,rgba(255, 255, 255, 0.15) 75%,transparent 75%,transparent); background-image: linear-gradient(45deg,rgba(255, 255, 255, 0.15) 25%,transparent 25%,transparent 50%,rgba(255, 255, 255, 0.15) 50%,rgba(255, 255, 255, 0.15) 75%,transparent 75%,transparent); background-size: 34px 34px;}
+
+.progress-bar-3 {background: rgba(	229, 228, 226, 1); -webkit-transition: none !important; transition: none !important;} 
+.progress-striped .progress-bar-3 {background-color: rgba(	229, 228, 226, 1); background-image: -webkit-gradient(linear,0 100%,100% 0,color-stop(0.25,rgba(0, 0, 0, 0.12),color-stop(0.25,transparent),color-stop(0.5,transparent),color-stop(0.5,rgba(0, 0, 0, 0.12)),color-stop(0.75,rgba(0, 0, 0, 0.12)),color-stop(0.75,transparent),to(transparent))); background-image: -webkit-linear-gradient(45deg,rgba(0, 0, 0, 0.12) 25%,transparent 25%,transparent 50%,rgba(0, 0, 0, 0.12) 50%,rgba(0, 0, 0, 0.12) 75%,transparent 75%,transparent); background-image: linear-gradient(45deg,rgba(0, 0, 0, 0.12) 25%,transparent 25%,transparent 50%,rgba(0, 0, 0, 0.12) 50%,rgba(0, 0, 0, 0.12) 75%,transparent 75%,transparent); background-size: 34px 34px;}

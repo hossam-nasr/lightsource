@@ -1,0 +1,7 @@
+<div>
+    <h1><?= $title ?></h1>
+    <h2><?= $message ?></h2>
+</div>
+<div>
+    Return to your <a href="/">profile</a>
+</div>

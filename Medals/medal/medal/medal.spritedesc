@@ -1,0 +1,32 @@
+sprite_sheet "medal" 512 x 512 margin 1
+
+img "medal.xcf.bz2"
+
+"empty" image_size * 1 with img
+  "empty"
+  "pillow"
+;
+
+"gold" image_size * 1 with img
+  "gold"
+  "cup"
+  "cup background"
+  "medal"
+  "pillow"
+;
+
+"silver" image_size * 1 with img
+  "silver"
+  "hand"
+  "star"
+  "medal"
+  "pillow"
+;
+
+"bronze" image_size * 1 with img
+  "bronze"
+  "candy"
+  "circle"
+  "medal"
+  "pillow"
+;

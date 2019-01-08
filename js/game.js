@@ -1,0 +1,296 @@
+/**
+ * game.js
+ *
+ * Computer Science 50
+ * Final Project
+ * Light Source
+ *
+ * Main game interface.
+ */
+
+var game, counter, score, image, production, inter, interset, productionCounter;
+const FACTOR = 5;
+
+$(function(){
+	
+	// set the .slists max height to 50% of screen height
+        // $('.slists').css('max-height', 0.5 * $(window).height());
+
+        // prepare the game
+	game    = $('#game');
+	counter = $('#counter');
+	score   = getNum('#counter');
+	productionCounter = $('#production');
+	production = getFloat('#production');
+	
+	// animate in new sprite
+	game.addClass("animated zoomInLeft");
+	game.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(evnt) {
+		// remove animation class after it is done
+		game.removeClass("animated zoomInLeft");
+	});
+	
+	interset = false;
+	// display the score
+	countUp(counter, 0, score, 3000);
+	
+	
+	
+	setInterval(function()
+	{
+		score += production/10;
+		updateBuyButtons('.buyauto', 1, 0);
+		updateBuyButtons('.buy', 1, 1);
+	}, 100);
+	
+	// save every 5 minutes
+	setInterval(function(){ save(score); }, 300000);
+	
+	// configure game events
+	configureEvents();
+});
+
+/*
+* sets the required events for the image (e.g. animation, incrementing counter)
+*/
+function configureEvents()
+{
+	// prepare the electromagnetic wave
+	game.load(function(event){
+		query(["SELECT * FROM `sources` WHERE id = ?", parseInt($('.current').get(0).id)], function(data){
+			image = {
+				width: game.width(),
+				height: game.height(),
+				increment: data[0].increment
+			};
+		});
+	});
+	
+		
+	// when the mouse is over the sprite
+	game.on('mouseover', function(event) {
+		// enlarge sprite
+		change("enlarge", image, FACTOR);
+	});
+	
+	// when the mouse leaves the sprite
+	game.on('mouseleave', function(event) {
+		
+		// return sprite to normal size
+		change("normal", image, FACTOR);
+	});
+	
+	// when the mouse is pressed on the sprite
+	game.on('mousedown', function(event) {
+		// shrink sprite
+		change("normal", image, FACTOR);
+	});
+	
+	// when the mouse is released
+	game.on('mouseup', function(event) {
+		// calculate increment
+		var increment = parseInt(image.increment);
+		
+		// increment counter
+		var oldscore = score;
+	 	score += increment;
+	 	countUp(counter, oldscore, score, 1000);
+	 	
+	 	// update buy buttons
+	 	updateBuyButtons('.buy', 1, 1);
+	 	updateBuyButtons('.buyauto', 1, 0);
+		
+		// display badge
+		var badge = $('#incrementer');
+		// set badge text
+		badge.html('+' + formatNumber(increment));
+		// position badge with the click
+		badge.offset({left: event.pageX, top:event.pageY});
+		// remove existing animation then wait 1 millisecond before animating it again
+		badge.removeClass("animated fadeOutUp");
+		setTimeout(function() {
+			// animate in badge
+			badge.addClass("animated fadeOutUp");
+		}, 1);
+	 	
+	 	// return sprite to enlarged size
+		change("enlarge", image, FACTOR);
+	});
+	
+	// save game when button clicked
+	$('#save-link').click(function(event) {
+		var current = parseInt($('.current').get(0).id);
+		save(score, current);
+		return false;
+	});
+	
+	// save game before navigating away
+	$(window).on("beforeunload", function() {
+		var current = parseInt($('.current').get(0).id);
+		save(score, current); 
+	});
+	
+	// Buy a new sprite
+	$(document).on('click', '.buy', function(event) {
+		var sprite = parseInt($(event.target).get(0).id);
+		query(["SELECT * FROM `sources` WHERE id = ?", sprite], function(data){
+			var price = data[0].price
+			
+			// remove photons
+			if (price > score)
+			{
+				Alert("Stop Cheating!");
+				throw "Cheater";
+			}
+		
+			// unlock automatic light sources
+			$('#' + sprite + '-buyauto').addClass('buyauto');
+			
+			// change colour and text of old button 
+			$('.current').text("Equip");
+			$('.current').removeClass("current").removeClass("btn-primary").addClass("owned").addClass("btn-success");
+		
+			// update pressed button
+			$(event.target).removeClass("buy").removeClass("btn-warning").addClass("current").addClass("btn-primary");
+			$(event.target).text("Active");
+			
+			buy(parseInt(price));
+		
+			// animate out old sprite
+			switchSprite(data[0].img, data[0].increment);
+		
+			// notify user of purchase
+			notify("success", "You have successfully purchased a new Light Source for " + formatNumber(parseInt(price)) + " photons!");
+		
+			// save new data to the database
+			save(score, sprite, sprite);
+		
+			
+		});
+	});
+	
+	// Buy a new automatic light source
+	$(document).on('click', '.buyauto', function(event) {
+	
+		var spriteid = parseInt($(event.target).get(0).id);
+		
+		// remove photons from score and update buy buttons
+		var price = parseInt($(event.target).get(0).value);
+		buy(price);
+		
+		// update the number of owned automatics
+		var ownedid = '#' + spriteid + '-owned';
+		var owned = getNum(ownedid);
+		owned++;
+		$(ownedid).text(formatNumber(owned));
+		
+		// entry in the database
+		query(['INSERT INTO `history` (userid, sourceid, permanent) VALUES (?, ?, 0)', "-1", spriteid], function(){});
+		
+		// add production
+		var oldproduction = production;
+		var rateOfNewSource = parseFloat($(event.target).get(0).value.split('|')[1]);
+		production += rateOfNewSource;
+		countUp2(productionCounter, oldproduction, production, 300, 2);
+		
+		// save new production to database
+		query(['UPDATE `users` SET rate = ? WHERE id = ?', production, -1], function(){
+		});
+		
+		// update progress bar
+		var prg = $('#' + spriteid + '-progress-bar');
+		// from bronze to silver and bronze medal	
+		if (owned == LIMITS[0])
+		{
+			switchColors(0, spriteid);
+			medals(0, spriteid);
+		}
+		// from silver to gold and silver medal
+		else if (owned == LIMITS[1])
+		{
+			switchColors(1, spriteid);
+			medals(1, spriteid);
+		}
+		// from gold to platinum and gold medal
+		else if (owned == LIMITS[2])
+		{
+			switchColors(2, spriteid);
+			medals(2, spriteid);
+		}
+		// stop at platinum and platinum medal
+		else if (owned == LIMITS[3])
+		{
+			medals(3, spriteid);
+		}
+		// no transition
+		else
+		{
+			var mx = prg.attr("aria-valuemax");
+			prg.animate({
+				width: (owned/mx*100) + "%"
+			}, 10);
+			prg.attr("aria-valuenow", owned);	
+		}
+		
+		// display badge for source
+		var badge = $('#' + spriteid + '-incrementer');
+		//set badge text
+		badge.html('+1');	
+		// set badge position to click
+		badge.offset({left: event.pageX, top: event.pageY});
+		// bridge badge to front
+		badge.css('z-index', '9999');
+		// remove existing animation then wait 1 millisecond before animating it again
+		badge.removeClass("animated fadeOutUp");
+		setTimeout(function() {
+			// animate in badge
+			badge.addClass("animated fadeOutUp");
+			badge.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(evnt) {
+			// remove inner html once it's done animating
+			badge.html('');
+			});
+		}, 1);
+		
+		
+	});
+	
+	// Switch sprites when an owned sprite button is pressed	
+	$(document).on('click', ".owned", function() {
+		// old and new active buttons
+		olda = $('.current');
+		newa = $(event.target);
+		var nsprid = parseInt(newa.get(0).id);
+		query(["SELECT * FROM `sources` WHERE id = ?", nsprid], function(nsprimg) {
+		
+			var newasprite = nsprimg[0].img;
+		
+			// change colour and text of old button 
+			olda.text("Equip");
+			olda.removeClass("current").removeClass("btn-primary").addClass("owned").addClass("btn-success");
+		
+			// change colour and text of new button
+			newa.text("Active");
+			newa.removeClass("owned").removeClass("btn-success").addClass("current").addClass("btn-primary");
+		
+			//switch sprites
+			switchSprite(newasprite, nsprimg[0].increment);
+		});
+		      
+	});
+	
+	// Reverse arrow when dropdown menu clicked (LightSources)
+	$('#sprites').on('show.bs.collapse', function() {
+		$("#chevron-icon-1").addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+	  });
+	$('#sprites').on('hidden.bs.collapse', function() {
+		$("#chevron-icon-1").addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+	  });
+	  
+	  // Reverse arrow when dropdown menu clicked (Production)
+	$('#automates').on('show.bs.collapse', function() {
+		$("#chevron-icon-2").addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+	  });
+	$('#automates').on('hidden.bs.collapse', function() {
+		$("#chevron-icon-2").addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+	  });
+}

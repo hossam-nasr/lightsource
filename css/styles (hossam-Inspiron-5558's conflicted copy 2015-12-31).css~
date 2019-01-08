@@ -1,0 +1,133 @@
+/**
+ * styles.css
+ *
+ * Computer Science 50
+ * Problem Set 7
+ *
+ * Global CSS.
+ */
+
+.container
+{
+    /* center contents */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;    
+}
+
+#middle .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+#bottom
+{
+    /* shrink bottom's font size */
+    font-size: smaller;
+
+    /* surround with whitespace */
+    margin: 20px;
+    bottom: 5px;
+    right: 0px;
+    left: 0px;
+    position: fixed;
+    text-align: center;
+}
+
+body
+{
+    background-image: url("../img/background.jpg");
+    background-size: cover;
+    background-color: #000000;
+    color: #CCCCCC;
+}
+
+td 
+{
+    text-align: left;
+    background-color: rgba(0,0,0,0);
+}
+
+th
+{
+    background-color: rgba(255, 255, 255, 0.3);
+}
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th
+{
+    background-color: rgba(0, 0, 0, 0.0);    
+}
+
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th 
+{
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.totheright
+{
+    text-align: right;
+}
+
+.totheleft
+{
+    text-align: left;
+}
+
+@font-face
+{
+    font-family: 'cashfont';
+    src: url('../fonts/cash.TTF');
+}
+
+#links li
+{
+    display: inline;
+    margin: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+#links a:link
+{
+    color: #CCCCCC;
+    text-decoration: none;
+    text-shadow: 0 0 0.1em #FFFFFF;
+}
+#links a:visited
+{
+    color: #CCCCCC;
+    text-decoration: none;
+}
+#links a:hover
+{
+    color: #FFFFFF;
+    text-decoration: none;
+    text-shadow: 0 0 0.3em #FFFFFF, 0 0 0.3em #FFFFFF;
+    
+}
+#links a:active
+{
+    color: #FFFFFF;
+    text-decoration: none;
+    text-shadow: 0 0 0.4em #FFFFFF, 0 0 0.4em #FFFFFF;
+}
+
+#game
+{
+	position: relative;
+	background: red;
+	top: 50px;
+}
+
+#save
+{
+	margin: 20px;
+	bottom: 30px;
+	left: 0px;
+	right: 0px;
+	position: fixed;
+}	
